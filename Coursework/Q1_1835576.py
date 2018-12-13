@@ -20,14 +20,15 @@ def series_score(a, discard=1):
     #   This means that series_score() by default removes 1 race but
     
 def sort_series(a):
-    print(sorted(a, key=lambda x: a[1]))
+    print(sorted(a, key=lambda x: a))
+
 	#Add the draw
 
 def read_sailor_data():
-    raw_data = importing_csv_file('sailor_performances')
+    data = importing_csv_file('sailor_performances')
     sailors = {}
     #Reads the sailor performance CSV file and turns it into an ordered dictionary
-    for people in raw_data:
+    for people in data:
         if people !='':
             sailors.update({people[0]:(float(people[1]),float(people[2]))})
     return(sailors)
@@ -35,9 +36,9 @@ def read_sailor_data():
 def importing_csv_file(filename):
 	with open(filename+'.csv') as x:
 		reader = csv.reader(x)
-		raw_data = [r for r in reader]
+		data = [r for r in reader]
         #Opens CSV file which contains the sailor data
-	return raw_data
+	return data
     #Returns data (names, mean performance & std deviation)    
 
 def generate_performances(sailors):

@@ -54,6 +54,8 @@ def calculate_finishing_order(sailor_scores):
 	return order
 
 def simulate_races(races=6):
+    #   races is an optional parameter which means that if nothing is entered then by default
+    #   it runs 6 races, which means there is the option to chose the number of races to perform.
 	results = {'Bob':[], 'Alice':[], 'Clare':[], 'Dennis':[], 'Eva':[]}
 	for i in range(races):
 		r = (calculate_finishing_order(generate_performances(read_sailor_data())))

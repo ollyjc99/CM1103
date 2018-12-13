@@ -64,46 +64,6 @@ def simulate_races(races=6):
 			results[person].append(r.index(person)+1)
 	return results
 
-def gen_counts(standing):
-	count = []
-	count_out = []
-	for s in standing:
-		count.append(int(standing[s]))
-	data = (Counter(count))
-	for numbers in data:
-		count_out.append([numbers,data[numbers]])
-	return count_out
-
-def plot_graph():
-    
-    standing = (generate_performances(read_sailor_data()))
-    
-    x=[]; y=[]
-    
-    s_count = sorted(gen_counts(standing))
-    print(s_count)
-    for items in s_count:
-        x.append(items[0])
-        y.append(items[1])
-
-    plt.plot(x, y, 'ro')
-    plt.title('Score')
-    plt.xlabel('Skill')
-    plt.ylabel('Frequency of people that got Race Score')
-    #   Labels the x and y axis of the graph
-    
-    plt.axis([min(x), max(x)*1.1, min(y), max(y)*1.1])
-    #   plots the x and y axis of the graph
-    
-    plt.show()
-
-def graph_add_sailor(loops):
-    with open('sailor_performances For Graphs.csv', mode='w') as x:
-        writer = csv.writer(x)
-     #   writer.writerow([name,mean performance,std dev])
-        for i in range(loops):
-            writer.writerow(['Example'+str(i), randint(0,100), 20,])
-
 def main():
     results = simulate_races()
     print(results)

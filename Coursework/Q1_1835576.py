@@ -7,10 +7,7 @@ Created on Sun Dec  9 18:02:17 2018
 """
 
 import csv
-import matplotlib.pyplot as plt
 from numpy import random as r
-from random import randint
-from collections import Counter
 
 def series_score(a, discard=1):
     for x in range(discard):
@@ -20,8 +17,7 @@ def series_score(a, discard=1):
     #   This means that series_score() by default removes 1 race but
     
 def sort_series(a):
-    print(sorted(a, key=lambda x: a))
-
+    print(sorted(a, key=lambda x: x[1]))
 	#Add the draw
 
 def read_sailor_data():

@@ -14,7 +14,7 @@ from collections import Counter
 from Q1_1835576 import *
 
 def read_sailor_data():
-    data = importing_csv_file('sailor_performances')
+    data = importing_csv_file('sailor_performances For Graphs')
     sailors = {}
     #Reads the sailor performance CSV file and turns it into an ordered dictionary
     for people in data:
@@ -70,9 +70,18 @@ def plot_graph():
     
     plt.show()
 
-def graph_add_sailor(loops):
+def graph_add_sailor(loops=250000):
     with open('sailor_performances For Graphs.csv', mode='w') as x:
         writer = csv.writer(x)
      #   writer.writerow([name,mean performance,std dev])
         for i in range(loops):
             writer.writerow(['Example'+str(i),randint(0,100),20])
+
+
+def main():
+    print('Loading Graph ...')
+    graph_add_sailor(500000)
+    plot_graph()
+    
+if __name__ == '__main__':
+	main()

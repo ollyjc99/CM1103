@@ -12,28 +12,32 @@ from numpy import random as r
 from random import randint
 from collections import Counter
 
-def series_score(t):
-    t[1].pop(t[1].index(max(t[1])))
-    print(sum(t[1]))
+def series_score(a, discard=1):
+    for x in range(discard):
+        a[1].pop(a[1].index(max(a[1])))
+    print(sum(a[1]))
+    #   discard is an optional parameter with a default value of 1
+    #   This means that series_score() by default removes 1 race but
     
-def sort_series(t):
-	print(sorted(t, key=lambda x: x[0]))
+def sort_series(a):
+    print(sorted(a, key=lambda x: a[1]))
 	#Add the draw
 
 def read_sailor_data():
-	raw_data = importing_csv_file('sailor_performances For Graphs')
-	sailors = {}
+    raw_data = importing_csv_file('sailor_performances')
+    sailors = {}
     #Reads the sailor performance CSV file and turns it into an ordered dictionary
-	for people in raw_data:
-		sailors.update({people[0]:(float(people[1]),float(people[2]))})
-	return(sailors)
+    for people in raw_data:
+        if people !='':
+            sailors.update({people[0]:(float(people[1]),float(people[2]))})
+    return(sailors)
     
 def importing_csv_file(filename):
 	with open(filename+'.csv') as x:
 		reader = csv.reader(x)
 		raw_data = [r for r in reader]
         #Opens CSV file which contains the sailor data
-	return raw_data[1:]
+	return raw_data
     #Returns data (names, mean performance & std deviation)    
 
 def generate_performances(sailors):
@@ -44,10 +48,10 @@ def generate_performances(sailors):
 	return scores
 
 def calculate_finishing_order(sailor_scores):
-	win_order = []
+	order = []
 	for people in (sorted(sailor_scores.items(), key = lambda x: x[1], reverse=True)):
-		win_order.append(people[0])
-	return win_order
+		order.append(people[0])
+	return order
 
 def simulate_races(races=6):
 	results = {'Bob':[], 'Alice':[], 'Clare':[], 'Dennis':[], 'Eva':[]}
@@ -59,45 +63,47 @@ def simulate_races(races=6):
 
 def gen_counts(standing):
 	count = []
-	count_output = []
+	count_out = []
 	for s in standing:
 		count.append(int(standing[s]))
 	data = (Counter(count))
 	for numbers in data:
-		count_output.append([numbers,data[numbers]])
-	return count_output
+		count_out.append([numbers,data[numbers]])
+	return count_out
 
 def plot_graph():
-	standing = (generate_performances(read_sailor_data()))
     
-	x=[]; y=[]
+    standing = (generate_performances(read_sailor_data()))
+    
+    x=[]; y=[]
+    
+    s_count = sorted(gen_counts(standing))
+    print(s_count)
+    for items in s_count:
+        x.append(items[0])
+        y.append(items[1])
 
-	s_count = sorted(gen_counts(standing))
-	print(s_count)
-	for items in s_count:
-		x.append(items[0])
-		y.append(items[1])
-
-	plt.plot(x, y, 'ro')
-	plt.title('Score')
-	plt.xlabel('Skill')
-	plt.ylabel('Frequency of people that got Race Score')
+    plt.plot(x, y, 'ro')
+    plt.title('Score')
+    plt.xlabel('Skill')
+    plt.ylabel('Frequency of people that got Race Score')
     #   Labels the x and y axis of the graph
     
-	plt.axis([min(x), max(x)*1.1, min(y), max(y)*1.1])
+    plt.axis([min(x), max(x)*1.1, min(y), max(y)*1.1])
     #   plots the x and y axis of the graph
     
-	plt.show()
+    plt.show()
 
 def graph_add_sailor(loops):
-	with open('sailor_performances For Graphs.csv', mode='w') as x:
-		writer = csv.writer(x)
-		for i in range(loops):
-			writer.writerow(['Example'+str(i), randint(0,100), 20])
+    with open('sailor_performances For Graphs.csv', mode='w') as x:
+        writer = csv.writer(x)
+     #   writer.writerow([name,mean performance,std dev])
+        for i in range(loops):
+            writer.writerow(['Example'+str(i), randint(0,100), 20,])
 
 def main():
-	results = simulate_races()
-	print(results)
-
+    results = simulate_races()
+    print(results)
+    
 if __name__ == '__main__':
 	main()
